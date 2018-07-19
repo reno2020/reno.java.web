@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ~ Copyright (c) 2009-2014. 上海诺诺镑客 All rights reserved. ~ @(#) logback.xml 
+	2014-10-27 16:42 -->
+
+<configuration scan="true" scanPeriod="30 seconds" debug="false">
+
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>true</resetJUL>
+	</contextListener>
+
+	<!-- To enable JMX Management -->
+	<jmxConfigurator />
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%date{HH:mm:ss.SSS} [%thread] %-5level|%logger{50}:%L|%msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="mqFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/log/mq.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/log/mq.%d{yyyy-MM-dd}.log.zip
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date{HH:mm:ss.SSS} [%thread] %-5level|%logger{50}:%L|%msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="riskAppFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>D:\log\app.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>D:\log\app.%d{yyyy-MM-dd}.log.zip
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date [%thread] %-5level|%logger{50}:%L|%msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="error"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/log/error.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/log/error.%d{yyyy-MM-dd}.log.zip
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date{HH:mm:ss.SSS} [%thread]|%msg%n</pattern>
+		</encoder>
+	</appender>
+
+
+	<appender name="confFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/log/nolyconf.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/log/nolyconf.%d{yyyy-MM-dd}.log.zip
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date{HH:mm:ss.SSS} [%thread] %-5level|%logger{50}:%L|%msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	<logger name="com.nonobank.nolyconf" level="INFO">
+		<appender-ref ref="confFile" />
+	</logger>
+	<!-- project default level -->
+	<logger name="com.nonobank" level="INFO" additivity="false" />
+
+	<logger name="org.springframework.data" level="INFO" />
+	<logger name="org.apache.tomcat.util" level="INFO" />
+	<logger name="org.apache.zookeeper" level="INFO" />
+	<logger name="org.eclipse.jetty.util" level="INFO" />
+	<logger name="org.eclipse.jetty.http" level="INFO" />
+	<logger name="org.eclipse.jetty.annotations" level="INFO" />
+	<logger name="org.eclipse.jetty.webapp" level="INFO" />
+	<logger name="org.springframework" level="INFO" />
+
+	<logger name="org.apache.ibatis" level="INFO" />
+	<logger name="java.sql.Connection" level="INFO" />
+	<logger name="java.sql.Statement" level="INFO" />
+	<logger name="java.sql.PreparedStatement" level="INFO" />
+	<logger name="com.alibaba.dubbo" level="INFO" />
+	<logger name="com.mysql.jdbc" level="INFO" />
+
+	<logger name="com.nonobank.mq" level="INFO">
+		<appender-ref ref="mqFile" />
+	</logger>
+
+	<logger name="infra.jersey" level="INFO">
+		<!-- remove catalina.out log -->
+		<!-- -->
+		<appender-ref ref="console" />
+		<appender-ref ref="riskAppFile" />
+	</logger>
+
+	<root level="INFO">
+		<!-- remove catalina.out log -->
+		<appender-ref ref="console" />
+		<appender-ref ref="riskAppFile" />
+	</root>
+</configuration>
